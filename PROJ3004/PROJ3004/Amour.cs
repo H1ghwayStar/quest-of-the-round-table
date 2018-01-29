@@ -6,11 +6,11 @@ namespace PROJ3004
 	{
 		private int bids;
 
-		public Amour(string name, int battlePoints, int bids)
+		public Amour()
 		{
-			this.name = name;
-			this.battlePoints = battlePoints;
-			this.bids = bids;
+			this.name = "";
+			this.battlePoints = 10;
+			this.bids = 1;
 		}
 		public int GetBids()
 		{
@@ -19,7 +19,7 @@ namespace PROJ3004
 
 		public override string ToString()
 		{
-			return string.Format("Name: " + name + ", Battle Points: " + battlePoints + "Bids" + bids);
+			return string.Format("Name: " + name + ", Battle Points: " + battlePoints + ", Bids" + bids);
 		}
 	}
 }

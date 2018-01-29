@@ -8,9 +8,10 @@ namespace PROJ3004
 		private string linkedFoe;
 		private string linkedAlly;
 
-		public Quest (int numStages, string linkedFoe, string linkedAlly = "none")
+		public Quest (string name, int numStages, string linkedFoe, string linkedAlly = "none")
 		{
-			this.numStages = numStages;
+            this.name = name;
+            this.numStages = numStages;
 			this.linkedFoe = linkedFoe;
 			this.linkedAlly = linkedAlly;
 		}
@@ -29,7 +30,7 @@ namespace PROJ3004
 
 		public override string ToString ()
 		{
-			return string.Format("Name: " + name);
+            return string.Format("Name: " + name + ", Number of Stages: " + numStages + ", Linked Foe: " + linkedFoe + ", Linked Ally " + linkedAlly);
 		}
 
 	}

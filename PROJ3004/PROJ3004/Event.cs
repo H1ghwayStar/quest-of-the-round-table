@@ -42,7 +42,7 @@ namespace PROJ3004
 
 		public override string ToString ()
 		{
-			return string.Format("Name: " + name);
+            return string.Format("Name: " + name + ", Shield Modified: " + shieldModifier + ", Adventure Cards Modified: " + adventureCardModifier + ", Allies eliminated? " + eliminateAllies + ", Wepon Cards Modified: " + weaponCardModifier + ", Foe Cards Modified: " + foeCardModifier);
 		}
 	}
 }

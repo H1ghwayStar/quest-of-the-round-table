@@ -6,7 +6,7 @@ namespace PROJ3004
 	{
 		private int bids;
 
-		public Ally(string name, int battlePoints, int bids)
+		public Ally(string name, int battlePoints, int bids = 0)
 		{
 			this.name = name;
 			this.battlePoints = battlePoints;
@@ -19,7 +19,7 @@ namespace PROJ3004
 
 		public override string ToString()
 		{
-			return string.Format("Name: " + name + ", Battle Points: " + battlePoints + "Bids" + bids);
+			return string.Format("Name: " + name + ", Battle Points: " + battlePoints + ", Bids " + bids);
 		}
 	}
 }
