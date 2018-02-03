@@ -10,7 +10,7 @@ namespace PROJ3004
 		private int weaponCardModifier;
 		private int foeCardModifier;
 
-		public Event(string name, int shieldModifier, int adventureCardModifier = 2, bool eliminiateAllies = false, int weaponCardModifier = 0, int foeCardModifier = 0)
+		public Event(string name, int shieldModifier, int adventureCardModifier, bool eliminiateAllies, int weaponCardModifier, int foeCardModifier)
 		{
 			this.name = name;
 			this.shieldModifier = shieldModifier;

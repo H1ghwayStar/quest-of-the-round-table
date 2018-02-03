@@ -46,6 +46,10 @@
     <Compile Include="Tournament.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Quest.cs" />
+    <Compile Include="Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="OldTestCases.txt" />
+  </ItemGroup>
 </Project>

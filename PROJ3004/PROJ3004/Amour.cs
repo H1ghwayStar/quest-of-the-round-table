@@ -8,7 +8,7 @@ namespace PROJ3004
 
 		public Amour()
 		{
-			this.name = "";
+			this.name = "Amour"; //remove this later if needed
 			this.battlePoints = 10;
 			this.bids = 1;
 		}
