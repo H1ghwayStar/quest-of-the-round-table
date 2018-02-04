@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default">
+  <MonoDevelop.Ide.ItemProperties.PROJ3004 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Player.cs">
+    <Files>
+      <File FileName="PROJ3004/Gameboard.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Adventure.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Ally.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Amour.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Card.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Event.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Foe.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Quest.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Story.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Test.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Tournament.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Weapon.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Player.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
