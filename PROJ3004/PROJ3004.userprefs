@@ -1,0 +1,38 @@
+﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default" StartupItem="PROJ3004/PROJ3004.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Gameboard.cs">
+    <Files>
+      <File FileName="PROJ3004/Gameboard.cs" Line="8" Column="3" />
+      <File FileName="PROJ3004/Player.cs" Line="18" Column="33" />
+      <File FileName="PROJ3004/Card.cs" Line="8" Column="3" />
+      <File FileName="PROJ3004/OldTestCases.txt" Line="20" Column="1" />
+      <File FileName="PROJ3004/Adventure.cs" Line="17" Column="22" />
+      <File FileName="PROJ3004/Amour.cs" Line="11" Column="54" />
+      <File FileName="PROJ3004/Foe.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Weapon.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Ally.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Test.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.PROJ3004>
+    <MonoDevelop.Ide.CustomExecutionModes>
+      <Data Name="Default (Custom)" Id="6990a2e4-c43e-40b3-8b79-9d9588a530a3" ModeId="Mono 4.2.1">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+          <Item Key="MonoDevelop.Ide.Execution.MonoExecutionCustomizer">
+            <Value ctype="MonoExecutionParameters" />
+          </Item>
+        </CommandData>
+      </Data>
+    </MonoDevelop.Ide.CustomExecutionModes>
+  </MonoDevelop.Ide.ItemProperties.PROJ3004>
+</Properties>
