@@ -1,4 +1,20 @@
-﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default" StartupItem="PROJ3004/PROJ3004.csproj">
+﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default">
+  <MonoDevelop.Ide.ItemProperties.PROJ3004 PreferredExecutionTarget="MonoDevelop.Default">
+    <MonoDevelop.Ide.CustomExecutionModes>
+      <Data Name="Default (Custom)" Id="6990a2e4-c43e-40b3-8b79-9d9588a530a3" ModeId="Mono 4.2.1">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+          <Item Key="MonoDevelop.Ide.Execution.MonoExecutionCustomizer">
+            <Value ctype="MonoExecutionParameters" />
+          </Item>
+        </CommandData>
+      </Data>
+    </MonoDevelop.Ide.CustomExecutionModes>
+  </MonoDevelop.Ide.ItemProperties.PROJ3004>
   <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Gameboard.cs">
     <Files>
       <File FileName="PROJ3004/Gameboard.cs" Line="110" Column="57" />
@@ -17,20 +33,4 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.PROJ3004>
-    <MonoDevelop.Ide.CustomExecutionModes>
-      <Data Name="Default (Custom)" Id="6990a2e4-c43e-40b3-8b79-9d9588a530a3" ModeId="Mono 4.2.1">
-        <CommandData>
-          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value ctype="CustomArgsExecutionModeData">
-              <EnvironmentVariables />
-            </Value>
-          </Item>
-          <Item Key="MonoDevelop.Ide.Execution.MonoExecutionCustomizer">
-            <Value ctype="MonoExecutionParameters" />
-          </Item>
-        </CommandData>
-      </Data>
-    </MonoDevelop.Ide.CustomExecutionModes>
-  </MonoDevelop.Ide.ItemProperties.PROJ3004>
 </Properties>
