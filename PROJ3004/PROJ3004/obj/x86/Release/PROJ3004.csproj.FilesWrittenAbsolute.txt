@@ -1,5 +1,5 @@
-/home/u6k/Documents/COMP3004/Github/quest-of-the-round-table-Card-Classes/PROJ3004/PROJ3004/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/u6k/Documents/COMP3004/Github/quest-of-the-round-table-Card-Classes/PROJ3004/PROJ3004/bin/Release/PROJ3004.exe.mdb
-/home/u6k/Documents/COMP3004/Github/quest-of-the-round-table-Card-Classes/PROJ3004/PROJ3004/bin/Release/PROJ3004.exe
-/home/u6k/Documents/COMP3004/Github/quest-of-the-round-table-Card-Classes/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.exe
-/home/u6k/Documents/COMP3004/Github/quest-of-the-round-table-Card-Classes/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.exe.mdb
+/home/u6k/Documents/COMP3004/quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/u6k/Documents/COMP3004/quest-of-the-round-table/PROJ3004/PROJ3004/bin/Release/PROJ3004.exe.mdb
+/home/u6k/Documents/COMP3004/quest-of-the-round-table/PROJ3004/PROJ3004/bin/Release/PROJ3004.exe
+/home/u6k/Documents/COMP3004/quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.exe
+/home/u6k/Documents/COMP3004/quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.exe.mdb

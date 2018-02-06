@@ -47,6 +47,7 @@
     <Compile Include="Event.cs" />
     <Compile Include="Quest.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Pair.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
