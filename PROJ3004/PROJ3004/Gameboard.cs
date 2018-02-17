@@ -42,8 +42,6 @@ namespace PROJ3004
             }
 
             play.runGame ();
-
-
         }
 
         /*Control Loop */ 
