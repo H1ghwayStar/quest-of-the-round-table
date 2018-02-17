@@ -9,6 +9,7 @@ namespace PROJ3004
 		private string name;
 		public int shields;
 		public string rank;
+		public bool amourOnQuest = false;
 		public static readonly int MAX_CARDS_HAND = 12;
 		public List <Ally> alliesInPlay = new List <Ally> ();
 		public List <Adventure> cardsInHand = new List <Adventure>(); //reconsider visibility of this field

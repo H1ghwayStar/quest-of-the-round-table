@@ -133,6 +133,11 @@ namespace PROJ3004
 				}
 				tempPlayerTurn++;
 			}
+			if (questEntry.Count < 1) {
+				Console.WriteLine ("No one was brave enough to take the " + storyCard.GetName());
+				return;
+			}
+			
 			//Incrementing through questEntry now will present the correct order of people to play
 			int hostCardsBeforeQuest = host.cardsInHand.Count;
 			Console.WriteLine ("Host select appropriate cards for the quest IN ORDER PROMPTED or they will be auto-selected for you.");
@@ -142,7 +147,309 @@ namespace PROJ3004
 			//string hostInput = Console.ReadLine ();
 			//string[] values = hostInput.Split (',');
 			//List<Adventure> questStages = isValidQuest (values, host, storyCard.GetNumStages());
+			Console.WriteLine ("Host stages currently always being auto selected.");
 			List<Pair<List<Adventure>,int>> questStages = autoSelectStages (host, storyCard.GetNumStages(), storyCard.GetLinkedFoe());
+
+			for (int i = 0; i < questStages.Count; i++) {
+				Adventure a = questStages [i].Item1 [0]; //because the lists either lead with a Foe or Test
+				if (a is Foe) {
+					Console.WriteLine ("Stage " + (i+1) + " is a Foe");
+					for (int x = 0; x < questEntry.Count; x++) { //showing player the cards they have, making them choose which cards they want to play
+						Player player = questEntry[x].Item1;
+						string[] values = questPreParse (player);
+						questEntry[x].Item2 = validCards (values, player, "yes");
+						questEntry [x].Item2 += linkedAllyBoost (storyCard.GetLinkedAlly (), player);
+					}
+					passedFoeStage (questEntry, questStages [i].Item2, i);
+				} else if (a is Test) {
+					Console.WriteLine ("Stage " + (i+1) + " is a Test");
+					biddingWar ((Test)a, questEntry, storyCard.GetName());
+				} else {
+					Console.WriteLine ("Critical error in isQuest, quest stages array. 9001. This should never happen!");
+					Console.ReadLine ();
+				}
+					
+				stripCards (); //can;t have more than 12 at point after a stage, applies to host as well (though host having over 12 seems impossible)
+				if (questEntry.Count < 1) {
+					Console.WriteLine ("All players eliminated");
+					break;
+				}
+			}
+
+			int hostUsedCards = storyCard.GetNumStages();
+			foreach (var p in questStages) {//get rid of all the cards the host used
+				List<Adventure> temp = p.Item1;
+				hostUsedCards += temp.Count;
+				removeHostCards (temp, host);
+
+			}
+
+			for (int i = 0; i < hostUsedCards; i++) {//allow the host to draw cards equivalent to how many they used + num stages in quest
+				host.cardsInHand.Add((Adventure) draw("Adventure"));
+			}
+
+			discardAfterTest (null, -1, -1, " immeadiately after");//can use this method to make the host get rid of cards over limit
+			stripCards();
+
+			foreach (var p in questEntry) {//whomever made it through gets shields equivalent to the number of stages
+				p.Item1.shields += storyCard.GetNumStages ();
+			}
+
+			foreach (var p in playerList) { //end of quest, make sure to reset this
+				p.amourOnQuest = false;
+			}
+		}
+
+		public void removeHostCards(List<Adventure> hostCardsUsed, Player host){
+			for(int i = host.cardsInHand.Count - 1; i > -1; i--) {
+				var b = from Adventure a in hostCardsUsed
+						where ReferenceEquals (a, host.cardsInHand[i])
+				        select a;
+				if (b != null && b.Count() > 0) {
+					try {
+						var n = b.First ();
+						Console.WriteLine ("Host used " + n.GetName () + " in quest. Getting rid of it now.");
+						host.discardPile.Add (host.cardsInHand [i]);
+						host.cardsInHand.RemoveAt (i);
+					} catch (Exception e) {
+						Console.WriteLine (e.ToString () + " There should be no circumstance where this ever happens");
+						Console.ReadLine ();
+					}
+				}
+			
+			}
+		}
+
+		public void biddingWar(Test test, List<Pair<Player,int>> questEntry, string questName){
+			int previousMaxBid = test.GetMinBids ();
+			if (questEntry.Count == 1 && 3 > previousMaxBid)
+				previousMaxBid = 3;//if there's only one player in the quest, the min bids of a test is 3
+			if (questName == "Search for the Questing Beast" && test.GetName () == "Test of the Questing Beast")
+				previousMaxBid = 4;
+
+			List <Pair<int,int>> bidMath = new List<Pair<int,int>> (); //first for player max bid, second for free bids
+
+			for (int i = 0; i < questEntry.Count; i++) {
+				Player p = questEntry [i].Item1;
+				p.cardsInHand.Add ((Adventure)draw ("Adventure")); //everyone partaking gets an additional adventure card before each stage
+				int playerMaxBid = p.cardsInHand.Count;
+				int freeBids = 0;
+
+				if (questName == "Search for the Questing Beast") {
+					var results = from Ally ally in p.alliesInPlay
+					              where ally.GetName () == "King Pellinore"
+					              select ally;
+					var pelly = results.FirstOrDefault ();
+					if (pelly != null) {
+						playerMaxBid += 4;
+						freeBids += 4;
+					}
+				}
+
+				var couple = from Ally ally in p.alliesInPlay
+				             where ally.GetName () == "Queen Iseult" || ally.GetName () == "Sir Tristan"
+				             select ally;
+				if (couple != null && couple.Count () == 2) { //Need both Sir Tristan and Queen Iseult to be together to her bid boost
+					playerMaxBid += 2;
+					freeBids += 2;
+				}
+
+				foreach (var a in p.alliesInPlay) {
+					playerMaxBid += a.GetBids ();
+					freeBids += a.GetBids ();
+				}
+
+				if (p.amourOnQuest) {
+					playerMaxBid += 1;
+					freeBids += 1;
+				}
+
+				Console.WriteLine (p.getName() + " has max bids of " + playerMaxBid + ". (including " + freeBids + " free bids");
+				bidMath.Add (new Pair<int,int> (playerMaxBid, freeBids));
+			}
+
+			for (int i = questEntry.Count - 1; i > -1; i--) {
+				if (bidMath [i].Item1 < previousMaxBid) {
+					Console.WriteLine (questEntry[i].Item1.getName() + " has been eliminated for insufficient bid ability.");
+					questEntry.RemoveAt (i);
+					bidMath.RemoveAt (i);
+				}
+			}
+
+			if (questEntry.Count == 1) {
+				Console.WriteLine (questEntry [0].Item1.getName () + " do you wish to place the min bid of " + previousMaxBid + " to continue?");
+				string userInput = Console.ReadLine ();
+				if (!(userInput.ToLower () == "yes" || userInput.ToLower () == "y") || previousMaxBid > bidMath[0].Item1 ) {
+					Console.WriteLine ("Okay, then you are eliminated.");
+					return;
+				}
+			}
+
+			while (questEntry.Count > 1) {
+				for (int i = 0; i < questEntry.Count; i++) {
+					if (questEntry.Count == 1)
+						break;
+
+					Console.WriteLine (questEntry[i].Item1.getName() + " you must bid higher than " + previousMaxBid + "\n What is your bid?" + 
+					" (Invalid bid will results in disqualification");
+					string userInput = Console.ReadLine ();
+					int x = -1;
+					bool parsed = Int32.TryParse (userInput, out x);
+					if (parsed && x > previousMaxBid && x <= bidMath [i].Item1) {
+						Console.WriteLine ("Okay " + questEntry[i].Item1.getName() + "you have bid successfully with " + x + " bids.");
+						previousMaxBid = x;
+					} else {
+						Console.WriteLine ("Invalid or not enough bids. " + questEntry[i].Item1.getName() +  " has been eliminated.");
+						questEntry.RemoveAt (i);
+						bidMath.RemoveAt (i);
+						i--;
+					}
+				}
+			}
+
+			if (questEntry.Count < 1) {
+				Console.WriteLine ("All players eliminated");
+				discardAfterTest (null, -1, -1);
+			} else if (questEntry.Count == 1) {
+				Console.WriteLine ("Congrats " + questEntry [0].Item1.getName () + " you have passed the test!");
+				discardAfterTest (questEntry [0].Item1, previousMaxBid, bidMath [0].Item2);
+			} else {
+				Console.WriteLine ("Only one player should pass a test, this should never happen! Error 9001");
+				Console.ReadLine ();
+			}
+		}
+
+		public void discardAfterTest(Player testWinner, int winningBidNo, int winnerFreebids, string whenDiscard = " at end of stage"){ //repeated code garbage method. Modify later once everything is working!!
+			for (int i = 0; i < numPlayers; i++) {
+				Player player = playerList [i];
+				if (testWinner == player)
+					continue;
+
+				if (player.cardsInHand.Count > Player.MAX_CARDS_HAND) {
+					for (int y = 0; y < player.cardsInHand.Count; y++) {
+						if (y == 0 && player.cardsInHand.Count > 12)
+							Console.WriteLine ("Alert, " + player.getName () + " you have more than 12 cards. Discard to (at least) 12 or be auto discarded" + whenDiscard);
+						Console.WriteLine ("Card #" + (y + 1) + ": " + player.cardsInHand [y].GetName () + " with " + player.cardsInHand [y].GetBattlePoints () + " battle points.");
+					}
+
+					Console.WriteLine ("Choose the cards you want to discard by card#, seperated by commas. Invalid cards will be ignored.");
+					string cardsChosen = Console.ReadLine ();
+					string[] values = cardsChosen.Split (',');
+					List<int> validatedCards = new List<int> ();
+					for (int y = 0; y < values.Length; y++) { //Making sure values that aren't acceptable ints are stripped
+						int temp = -1; 
+						bool tempBool = int.TryParse (values [y], out temp);
+						if (tempBool && temp > 0 && temp <= player.cardsInHand.Count) {
+							validatedCards.Add (temp);
+						}
+					}
+					validatedCards.Sort ();
+
+					for (int y = validatedCards.Count - 1; y >= 0; y--) {
+						Console.WriteLine (player.getName () + " discarded " + player.cardsInHand [validatedCards [y] - 1].GetName ());
+						player.discardPile.Add (player.cardsInHand [validatedCards [y] - 1]);
+						player.cardsInHand.RemoveAt (validatedCards [y] - 1);
+					}
+				}
+			}//end outer for
+
+
+			if (testWinner != null) {
+				int twocih = testWinner.cardsInHand.Count;
+				Console.WriteLine (testWinner.getName());
+				for (int y = 0; y < testWinner.cardsInHand.Count; y++) {
+					Console.WriteLine ("Card #" + (y+1) + ": " + testWinner.cardsInHand[y].GetName() + " with " 
+						+ testWinner.cardsInHand[y].GetBattlePoints() + " battle points.");
+				}
+				Console.WriteLine ("Choose the cards you want to discard by card#, seperated by commas. Invalid cards will be ignored.");
+				string cardsChosen = Console.ReadLine ();
+				string[] values = cardsChosen.Split (',');
+				List<int> validatedCards = new List<int> ();
+				for (int y = 0; y < values.Length; y++) { //Making sure values that aren't acceptable ints are stripped
+					int temp = -1; 
+					bool tempBool = int.TryParse (values [y], out temp);
+					if (tempBool && temp > 0 && temp <= testWinner.cardsInHand.Count) {
+						validatedCards.Add (temp);
+					}
+				}
+				validatedCards.Sort ();
+
+				for (int y = validatedCards.Count - 1; y >= 0; y--) {
+					Console.WriteLine (testWinner.getName () + " discarded " + testWinner.cardsInHand [validatedCards [y] - 1].GetName ());
+					testWinner.discardPile.Add (testWinner.cardsInHand [validatedCards [y] - 1]);
+					testWinner.cardsInHand.RemoveAt (validatedCards [y] - 1);
+				}
+
+				while (testWinner.cardsInHand.Count > twocih - (winningBidNo - winnerFreebids)) {//didnt discard enough cards for the bidding
+					Console.WriteLine (testWinner.getName () + " force-discarded " + testWinner.cardsInHand [testWinner.cardsInHand.Count - 1].GetName ());
+					testWinner.discardPile.Add (testWinner.cardsInHand [testWinner.cardsInHand.Count - 1]);
+					testWinner.cardsInHand.RemoveAt (testWinner.cardsInHand.Count - 1);
+				}
+			}
+					
+		}
+
+		public string [] questPreParse(Player player){
+			player.cardsInHand.Add ((Adventure)draw ("Adventure")); //everyone partaking gets an additional adventure card before each stage
+			Console.WriteLine (player.getName());
+			for (int y = 0; y < player.cardsInHand.Count; y++) {
+				if(y == 0 && player.cardsInHand.Count > 12) 
+					Console.WriteLine ("Alert, " + player.getName() + " you have more than 12 cards. Discard to (at least) 12 or be auto discarded at end of stage");
+				Console.WriteLine ("Card #" + (y+1) + ": " + player.cardsInHand[y].GetName() + " with " + player.cardsInHand[y].GetBattlePoints() + " battle points.");
+			}
+				
+			Console.WriteLine ("Choose the cards you want to use for the quest by card#, seperated by commas. Invalid cards will be ignored.");
+			string cardsChosen = Console.ReadLine ();
+			string[] values = cardsChosen.Split (',');
+			return values;
+		}
+
+		public void passedFoeStage(List<Pair<Player,int>> questEntry, int stageBattlePoints, int stageNo){
+			for (int x = questEntry.Count - 1; x > -1; x--) { //check if player has passed the stage succesfully
+				var p = questEntry[x];
+				Console.WriteLine ("Player battle score: " + p.Item2 + " | " + "Stage battle score " + stageBattlePoints);
+				if (p.Item2 >= stageBattlePoints) {
+					Console.WriteLine (p.Item1.getName () + "has passed stage " + (stageNo + 1));
+					p.Item2 = 0; //reset their bp at the end of each round
+				} else {
+					Console.WriteLine (p.Item1.getName() + " has been eliminated.");
+					questEntry.RemoveAt (x);
+				}
+			}
+		}
+
+		public int linkedAllyBoost(string linkedAlly, Player p){
+			int battlePoints = 0;
+			//Step 1 check for possible linked ally
+			//Step 2 check for both Queen Iseult AND Sir Tristan together
+			var results = from Ally ally in p.alliesInPlay
+			              where ally.GetName () == linkedAlly
+			              select ally;
+			var candidate = results.FirstOrDefault ();
+
+			if (candidate != null) {
+				if (candidate.GetName () == "Sir Percival") {
+					battlePoints += 15; //5 goes to 20 bp on the Search for the Holy Grail Quest
+					Console.WriteLine ("Sir Percival boost!!");
+				} else if (candidate.GetName () == "Sir Gawain") {
+					battlePoints += 10; //10 goes to 20 bp on the Test of the Green Knight Quest
+					Console.WriteLine ("Sir Gawain boost!!");
+				} else if (candidate.GetName () == "Sir Lancelot") {
+					battlePoints += 10; //15 goes to 25 bp on the Quest to Defend the Queen's Honor Quest
+					Console.WriteLine ("Sir Lancelot boost!!");
+				}
+			}
+			//Step 1 complete, not for step 2
+			var pairedAllies = from Ally ally in p.alliesInPlay
+			                   where ally.GetName () == "Queen Iseult" || ally.GetName () == "Sir Tristan"
+			                   select ally;
+
+			if (pairedAllies != null && pairedAllies.Count() == 2) {//should be exactly two with both of them in play
+				battlePoints += 10; //10 goes to 20 when Queen Iseult is also in play
+				Console.WriteLine ("Sir Tristan boost!!");
+			}
+
+			return battlePoints;
 		}
 
 		public List<Pair<List<Adventure>,int>> autoSelectStages (Player host, int numStages, string linkedFoe){
@@ -208,14 +515,17 @@ namespace PROJ3004
 
 		public void makeQuest(List<Pair<List<Adventure>,int>> stages, List<Pair<Foe,int>> foeList, List<List<List<Weapon>>> weaponComboList, Test testCard,
 			int start, int finish, Func <int,int,bool> compar, Func <int,int> op, int numStages){
-			Random rand = new Random (); //for 1st nested list
-			Random randy = new Random (); //for 2nd nested list
-			Random unequipped = new Random(); //odds an enemy doesn't grab a weapon at all
 			bool foesFound = false;
 			if (testCard != null)
 				numStages--;
 			
 			for (int i = start; compar (i, finish); i = op (i)) {
+				
+				Random rand = new Random (Guid.NewGuid().GetHashCode()); //for 1st nested list
+				Random randy = new Random (Guid.NewGuid().GetHashCode()); //for 2nd nested list
+				Random unequipped = new Random(Guid.NewGuid().GetHashCode()); //odds an enemy doesn't grab a weapon at all
+				//otherwise its all time dependent seeds and they'll all keep spitting out the same stuff, probably why I was having issues with randomness
+
 				int x = rand.Next (0, weaponComboList.Count);
 				int y = randy.Next (0, weaponComboList [x].Count);
 				int z = unequipped.Next (0, 4); //see below, 25% chance of not getting a weapon
@@ -238,13 +548,22 @@ namespace PROJ3004
 						stages.Clear ();
 				}
 				if (!compar(op(i),finish) && !foesFound) { //we know we've reached the end and haven't found what we're looking for
-					i = start;
+					Console.WriteLine ("In the reset");
+					if (start < finish)
+						i = start - 1;
+					else
+						i = start + 1;
 					stages.Clear (); //to prevent double allocation of foes
 				}
 			}
 
 			Console.WriteLine ("Looks like we've found or foe stages, still need to add a test card (IF NEEDED)");
 			Console.ReadLine ();
+			if (testCard != null) {
+				Random randA = new Random ();
+				int a = randA.Next (0, stages.Count);
+				stages.Insert (a, new Pair<List<Adventure>, int> (new List<Adventure> { testCard }, -1)); //Test does not have any battle points
+			}
 
 		}
 
@@ -568,7 +887,7 @@ namespace PROJ3004
 			return p;
 		}
 
-		public void isTournament(Tournament storyCard, List<Player> tie = null){
+		public void isTournament(Tournament storyCard, List<Player> tie = null, int eliminatedCompetitors = 0){
 			string tournamentName = storyCard.GetName ();
 			int bonusShields = storyCard.GetShieldModifier();
 			List <Pair<Player, int>> tournamentEntry = new List <Pair<Player, int>> ();
@@ -619,7 +938,7 @@ namespace PROJ3004
 
 			Console.ReadLine ();
 
-			bonusShields += tournamentEntry.Count;
+			bonusShields += tournamentEntry.Count + eliminatedCompetitors;
 			for (int i = 0; i < tournamentEntry.Count; i++) { //showing player the cards they have, making them choose which cards they want to play
 				Player player = tournamentEntry[i].Item1;
 				for (int y = 0; y < player.cardsInHand.Count; y++) {
@@ -634,7 +953,7 @@ namespace PROJ3004
 			}
 			List<Player> winner = roundWinner (tournamentEntry);
 			if (winner.Count > 1 && tie == null) {
-				isTournament (storyCard, winner); //careful not to enter this loop twice, or it's inifinite loop time baby! At most one recursive call should happen
+				isTournament (storyCard, winner, (bonusShields - winner.Count)); //careful not to enter this loop twice, or it's inifinite loop time baby! At most one recursive call should happen
 			}else if(winner.Count > 1 && tie != null){
 				Console.WriteLine ("Tie breaker can't be decided, everyone gets shields!");
 				for (int i = 0; i < winner.Count; i++) {
@@ -651,6 +970,7 @@ namespace PROJ3004
 			for (int i = 0; i < playerList.Count; i++) {
 				Player p = playerList [i];
 				while (p.cardsInHand.Count > Player.MAX_CARDS_HAND) {
+					Console.WriteLine ("Auto-removed " + p.cardsInHand[p.cardsInHand.Count - 1].GetName());
 					p.discardPile.Add (p.cardsInHand[p.cardsInHand.Count - 1]);
 					p.cardsInHand.RemoveAt (p.cardsInHand.Count - 1);
 				}
@@ -676,7 +996,7 @@ namespace PROJ3004
 			return winner;
 		} 
 
-		public int validCards(string[] values, Player p, List<Adventure> validatedCardObjects = null){//Should be usable for tournament and quest. Will see if third arg is useful.
+		public int validCards(string[] values, Player p, string quest = "no"){//Should be usable for tournament and quest
 			List<int> validatedCards = new List<int> ();
 			int battlePoints = 0;
 
@@ -694,6 +1014,7 @@ namespace PROJ3004
 			}
 			Console.WriteLine ("WTF#2 :" + validatedCards.Count);
 			bool amourPlayer = false;
+			bool firstamourSet = false;
 			validatedCards.Sort(); //don't want to remove from the middle and mess up indexes
 			for (int i = validatedCards.Count - 1; i >= 0; i--) { //No two weapons of the same type can be played, no foe cards, only one Amour
 				if (p.cardsInHand [validatedCards [i] - 1] is Weapon) {
@@ -706,10 +1027,19 @@ namespace PROJ3004
 							Console.WriteLine ("WTF#2 :" + validatedCards.Count);
 						}
 					}
-				} else if (p.cardsInHand [validatedCards [i] - 1] is Amour && !amourPlayer) {
+				} else if (p.cardsInHand [validatedCards [i] - 1] is Amour && !amourPlayer && quest == "no") {
 					amourPlayer = true;
-				} else if (p.cardsInHand [validatedCards [i] - 1] is Amour && amourPlayer) {
+				} else if (p.cardsInHand [validatedCards [i] - 1] is Amour && amourPlayer && quest == "no") {
 					validatedCards.RemoveAt (i);
+				} else if (p.cardsInHand [validatedCards [i] - 1] is Amour && p.amourOnQuest && quest == "yes") {
+					validatedCards.RemoveAt (i);
+				}else if(p.cardsInHand [validatedCards [i] - 1] is Amour && !p.amourOnQuest && quest == "yes"){
+					/*Console.WriteLine (p.getName() + " played(special quest amour case) " + p.cardsInHand[validatedCards [i] - 1].GetName());
+					p.discardPile.Add (p.cardsInHand[validatedCards [i] - 1]);//dont want to double count amours anyway, also only one amour is allowed so additional amours are ignored
+					p.cardsInHand.RemoveAt(validatedCards [i] - 1);
+					validatedCards.RemoveAt (i);*/
+					p.amourOnQuest = true;
+					firstamourSet = true;
 				} else if (p.cardsInHand [validatedCards [i] - 1] is Foe) {
 					validatedCards.RemoveAt (i);
 				} else if (p.cardsInHand [validatedCards [i] - 1] is Test) {
@@ -726,6 +1056,8 @@ namespace PROJ3004
 				p.cardsInHand.RemoveAt(validatedCards [i] - 1);
 			}
 			battlePoints += Player.rankDictionary[p.rank];
+			if (quest == "yes" && p.amourOnQuest && !firstamourSet)
+				battlePoints += 10; 
 			Console.WriteLine ("Total battle points for player including rank " + battlePoints);
 			return battlePoints;
 		}
@@ -801,6 +1133,7 @@ namespace PROJ3004
 			}
 			if (adventureDeck.Count == 0) {
 				Console.WriteLine ("Unhandled out of adventure cards case");
+				Console.ReadLine ();
 				//if we get here, need a case
 			}
 			switch (whichDeck) {
@@ -926,8 +1259,8 @@ namespace PROJ3004
 			adventureDeck.Add(createAdventureCard ("Test","Test of Temptation", 0));
 			adventureDeck.Add(createAdventureCard ("Test","Test of Temptation", 0));
 
-			adventureDeck.Add(createAdventureCard ("Test", "Test of Questing Beast", 0)); 
-			adventureDeck.Add(createAdventureCard ("Test", "Test of Questing Beast", 0));
+			adventureDeck.Add(createAdventureCard ("Test", "Test of the Questing Beast", 0)); 
+			adventureDeck.Add(createAdventureCard ("Test", "Test of the Questing Beast", 0));
 
 			adventureDeck.Add(createAdventureCard ("Test", "Test of Morgan Le Fey", 3));
 			adventureDeck.Add(createAdventureCard ("Test", "Test of Morgan Le Fey", 3));
