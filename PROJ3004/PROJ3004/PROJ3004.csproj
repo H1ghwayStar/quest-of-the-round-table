@@ -48,6 +48,7 @@
     <Compile Include="Quest.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Pair.cs" />
+    <Compile Include="K-Combinations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

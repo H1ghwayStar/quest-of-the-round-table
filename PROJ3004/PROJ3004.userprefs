@@ -1,5 +1,24 @@
-﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default">
-  <MonoDevelop.Ide.ItemProperties.PROJ3004 PreferredExecutionTarget="MonoDevelop.Default">
+﻿<Properties StartupConfiguration="{11ACF460-78DD-434A-9719-A132CECCD749}|Default" StartupItem="PROJ3004/PROJ3004.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Weapon.cs">
+    <Files>
+      <File FileName="PROJ3004/Gameboard.cs" Line="172" Column="24" />
+      <File FileName="PROJ3004/K-Combinations.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Foe.cs" Line="16" Column="15" />
+      <File FileName="PROJ3004/Quest.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Player.cs" Line="8" Column="27" />
+      <File FileName="PROJ3004/Adventure.cs" Line="3" Column="19" />
+      <File FileName="PROJ3004/Pair.cs" Line="13" Column="4" />
+      <File FileName="PROJ3004/Weapon.cs" Line="2" Column="1" />
+      <File FileName="PROJ3004/Test.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.PROJ3004>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="Default (Custom)" Id="6990a2e4-c43e-40b3-8b79-9d9588a530a3" ModeId="Mono 4.2.1">
         <CommandData>
@@ -15,22 +34,4 @@
       </Data>
     </MonoDevelop.Ide.CustomExecutionModes>
   </MonoDevelop.Ide.ItemProperties.PROJ3004>
-  <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Gameboard.cs">
-    <Files>
-      <File FileName="PROJ3004/Gameboard.cs" Line="313" Column="18" />
-      <File FileName="PROJ3004/Player.cs" Line="58" Column="1" />
-      <File FileName="PROJ3004/Event.cs" Line="74" Column="1" />
-      <File FileName="PROJ3004/Tournament.cs" Line="1" Column="1" />
-      <File FileName="PROJ3004/Quest.cs" Line="1" Column="1" />
-      <File FileName="PROJ3004/Adventure.cs" Line="1" Column="1" />
-      <File FileName="PROJ3004/Weapon.cs" Line="1" Column="1" />
-      <File FileName="PROJ3004/Pair.cs" Line="12" Column="23" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
 </Properties>

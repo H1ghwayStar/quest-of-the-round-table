@@ -1,5 +1,0 @@
-/Users/MuhammadNaseer/OneDrive - Carleton University/Github Local Repository /quest-of-the-round-table/PROJ3004/PROJ3004/bin/Release/PROJ3004.exe
-/Users/MuhammadNaseer/OneDrive - Carleton University/Github Local Repository /quest-of-the-round-table/PROJ3004/PROJ3004/bin/Release/PROJ3004.pdb
-/Users/MuhammadNaseer/OneDrive - Carleton University/Github Local Repository /quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.csproj.CoreCompileInputs.cache
-/Users/MuhammadNaseer/OneDrive - Carleton University/Github Local Repository /quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.exe
-/Users/MuhammadNaseer/OneDrive - Carleton University/Github Local Repository /quest-of-the-round-table/PROJ3004/PROJ3004/obj/x86/Release/PROJ3004.pdb

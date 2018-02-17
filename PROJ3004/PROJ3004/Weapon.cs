@@ -2,12 +2,26 @@
 
 namespace PROJ3004
 {
-	public class Weapon : Adventure
+	public class Weapon : Adventure, IComparable
 	{
 		public Weapon(string name, int battlePoints)
 		{
 			this.name = name;
 			this.battlePoints = battlePoints;
+		}
+
+		public void setBattlePoints(int battlePoints){
+			this.battlePoints = battlePoints;
+		}
+
+		public int CompareTo(Object obj){
+			if (obj == null)
+				return 1;
+			Weapon otherWeapon = obj as Weapon;
+			if (otherWeapon != null)
+				return this.battlePoints.CompareTo (otherWeapon.battlePoints);
+			else
+				throw new ArgumentException ("Object is not a Weapon");
 		}
 
 		public override string ToString()
@@ -30,7 +44,13 @@ namespace PROJ3004
 
 		public static bool operator ==(Weapon x, Weapon y)
 		{
-			return x.name == y.name;
+			//Console.WriteLine ("We get here");
+			if (ReferenceEquals (x, null) && ReferenceEquals (y, null))
+				return true;
+			else if(ReferenceEquals(x,null) || ReferenceEquals(y,null))
+				return false;
+			else
+				return x.name == y.name;
 		}
 	}
 }
