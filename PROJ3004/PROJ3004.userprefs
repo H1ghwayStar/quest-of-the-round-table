@@ -17,9 +17,9 @@
   </MonoDevelop.Ide.ItemProperties.PROJ3004>
   <MonoDevelop.Ide.Workbench ActiveDocument="PROJ3004/Gameboard.cs">
     <Files>
-      <File FileName="PROJ3004/Gameboard.cs" Line="110" Column="57" />
-      <File FileName="PROJ3004/Player.cs" Line="32" Column="6" />
-      <File FileName="PROJ3004/Event.cs" Line="1" Column="1" />
+      <File FileName="PROJ3004/Gameboard.cs" Line="313" Column="18" />
+      <File FileName="PROJ3004/Player.cs" Line="58" Column="1" />
+      <File FileName="PROJ3004/Event.cs" Line="74" Column="1" />
       <File FileName="PROJ3004/Tournament.cs" Line="1" Column="1" />
       <File FileName="PROJ3004/Quest.cs" Line="1" Column="1" />
       <File FileName="PROJ3004/Adventure.cs" Line="1" Column="1" />
