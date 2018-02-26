@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0x66ffedff?>
+
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="425.0" prefWidth="555.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.Controller">
+   <children>
+      <ImageView id="lord-rings-unknown-swordsman-desktop-background.jpg" GridPane.columnIndex="0" GridPane.rowIndex="0">
+         <image>
+            <Image url="/lord-rings-unknown-swordsman-desktop-background.jpg" preserveRatio="true" smooth="true" />
+         </image>
+      </ImageView>
+      <StackPane prefHeight="192.0" prefWidth="263.0">
+         <children>
+            <ImageView id="lord-rings-unknown-swordsman-desktop-background.jpg">
+               <image>
+                  <Image url="@../lord-rings-unknown-swordsman-desktop-background.jpg" preserveRatio="true" smooth="true" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_openScene_play" alignment="CENTER" focusTraversable="true" graphicTextGap="4.0" mnemonicParsing="false" onAction="#playClicked" opacity="1.0" text="Play" textFill="BLACK" textOverrun="ELLIPSIS" translateX="-160.0" translateY="90.0" underline="false" visible="true" wrapText="false" StackPane.alignment="TOP_CENTER">
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
+            </Button>
+            <Button fx:id="btn_openScn_instruct" mnemonicParsing="false" onAction="#instructionClicked" text="Instructions" translateX="-160.0" translateY="175.0" StackPane.alignment="TOP_CENTER">
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
+            </Button>
+            <Button fx:id="btn_openScn_quit" mnemonicParsing="false" onAction="#quitClicked" text="Quit" translateX="-160.0" translateY="85.0">
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
+            </Button>
+            <Button fx:id="btn_openScn_settings" mnemonicParsing="false" onAction="#settingsClicked" text="Settings" translateX="-160.0" translateY="20.0">
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
+            </Button>
+            <Text fill="BLACK" stroke="BLACK" text="QUEST OF THE ROUND TABLE" textAlignment="LEFT" translateX="-160.0" translateY="-150.0" underline="true">
+               <font>
+                  <Font name="Century Schoolbook" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>

@@ -1,0 +1,16 @@
+.root {
+     -fx-background-image: url("knights_warriors_horses_1920x1200.jpg");
+     -fx-background-size:cover;
+}
+
+.done {
+
+    -fx-font-color: black;
+    -fx-font-size: 20;
+
+	-fx-background-image: url("startGameButton.jpg");
+	-fx-background-size:cover;
+    -fx-border-width: 2px;
+    -fx-border: 2px;
+    -fx-border-color:black;
+}

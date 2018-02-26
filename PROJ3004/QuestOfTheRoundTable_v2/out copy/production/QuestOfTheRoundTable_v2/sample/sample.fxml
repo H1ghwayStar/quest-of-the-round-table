@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="425.0" prefWidth="555.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <StackPane prefHeight="192.0" prefWidth="263.0">
+         <children>
+            <Text translateX="10.0" translateY="-100.0" stroke="BLACK" text="QUEST OF THE ROUND TABLE">
+               <font>
+                  <Font name="Verdana" size="24.0" />
+               </font>
+            </Text>
+            <Button fx:id="btn_openScene_play" alignment="CENTER" mnemonicParsing="false" onAction="#playClicked" text="Play" translateY="10.0" StackPane.alignment="TOP_CENTER" />
+            <Button fx:id="btn_openScn_instruct" mnemonicParsing="false" onAction="#instructionClicked" text="Instructions" translateY="45.0" StackPane.alignment="TOP_CENTER" />
+            <Button fx:id="btn_openScn_quit" mnemonicParsing="false" onAction="#quitClicked" text="Quit" translateY="45.0" />
+            <Button mnemonicParsing="false" text="Settings" />
+         </children></StackPane>
+   </children>
+</GridPane>
