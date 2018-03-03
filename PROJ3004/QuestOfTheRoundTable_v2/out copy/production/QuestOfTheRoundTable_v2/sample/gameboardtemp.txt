@@ -1,0 +1,260 @@
+package sample;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
+
+public class Gameboard {
+
+    public ArrayList<Adventure> adventureDeck = new ArrayList<>();//125
+    public ArrayList<Adventure> discardAdventureDeck = new ArrayList<>();
+    public Controller controller;
+    //story lists go here
+
+    public ArrayList<Player> playerList = new ArrayList<>();
+    public int numPlayers = 0;
+    public boolean gameOver = false;
+    public int playerTurn = 1;
+
+    public int QuestBonusShields = 0; //For Kings Recognition
+
+    /*public static void main(String [] args){
+        Gameboard play = new Gameboard();
+        play.runGame();
+    } */
+
+    public void initializePlayers(Player p1, Player p2, Player p3, Player p4){
+        controller = Controller.getInstance();
+        numPlayers = controller.numPlayers;
+
+        playerList.add(p1);
+        playerList.add(p2);
+        if(p3 != null)
+            playerList.add(p3);
+        if(p4 != null)
+            playerList.add(p4);
+    }
+
+    public void runGame() throws Exception {
+        createDeck();
+        shuffle("adventureDeck");
+        deal();
+
+        for(int i = 0; i < playerList.size(); i++){
+            Player p = playerList.get(i);
+            System.out.println(p.getName());
+            System.out.println("----------");
+            for(int y = 0; y < p.cardsInHand.size(); y++){
+                System.out.println(p.cardsInHand.get(y).GetName());
+            }
+            System.out.println("=====================");
+        }
+        try {
+            controller.updateWindow();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*while(!gameOver){
+
+        } */
+    }
+
+    public void deal(){
+        for (int i = 0; i < 12; i++) {
+            for (int y = 0; y < playerList.size(); y++) {
+                playerList.get(y).cardsInHand.add(adventureDeck.get(adventureDeck.size() - 1));
+                discardAdventureDeck.add(adventureDeck.get(adventureDeck.size() - 1));
+                adventureDeck.remove(adventureDeck.size() - 1);
+            }
+        }
+    }
+
+
+
+    public void shuffle(String whichDeck){
+        Random generator = new Random(UUID.randomUUID().hashCode());
+
+        switch (whichDeck) {
+            case "storyDeck":
+                /*for (int y = 0; y < 3; y++) {
+                    for (int i = 0; i < storyDeck.Count; i++) {
+                        //We should only ever shuffle a full story deck, for right now that's only at the start
+                        //Will have to deal with situation: All story cards are used, but no one has won
+                        int tempInt = rand.Next (0, storyDeck.Count);
+                        Story swapCard = storyDeck [tempInt];
+                        storyDeck [tempInt] = storyDeck [i];
+                        storyDeck [i] = swapCard;
+                    }
+                } */
+                break;
+            default:
+                for (int y = 0; y < 3; y++) {
+                    for (int i = 0; i < adventureDeck.size(); i++) {
+                        //Shuffling at the start is a full deck, but it could be a different number next time
+                        int tempInt = generator.nextInt(adventureDeck.size());
+                        Adventure swapCard = adventureDeck.get(tempInt);
+                        adventureDeck.set(tempInt, adventureDeck.get(i));
+                        adventureDeck.set(i, swapCard);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void createDeck() {
+        int cardCounter = 0;
+
+        //ADVENTURE DECK
+
+        /* AMOUR */
+
+        for (int i = 0; i < 8; i++) {
+            adventureDeck.add(createAdventureCard("Amour", "Amour", 10, 1));
+            cardCounter++;
+        }
+
+        /* WEAPON */
+
+        for (int i = cardCounter; i < 10; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Excalibur", 30, 0));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 16; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Lance", 20, 0));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 24; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Battle-ax", 15, 0));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 40; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Sword", 10, 0));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 51; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Horse", 10, 0));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 57; i++) {
+            adventureDeck.add(createAdventureCard("Weapon", "Dagger", 5, 0));
+            cardCounter++;
+        }
+
+        /* FOE */
+        for (int i = cardCounter; i < 58; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Dragon", 50, 70));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 60; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Giant", 40, 40));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 64; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Mordred", 30, 30));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 66; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Green Knight", 25, 40));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 69; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Black Knight", 25, 35));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 75; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Evil Knight", 20, 30));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 83; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Saxon Knight", 15, 25));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 90; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Robber Knight", 15, 15));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 95; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Saxons", 10, 20));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 99; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Boar", 5, 15));
+            cardCounter++;
+        }
+
+        for (int i = cardCounter; i < 107; i++) {
+            adventureDeck.add(createAdventureCard("Foe", "Thieves", 5, 5));
+            cardCounter++;
+        }
+
+        /*TEST*/
+        adventureDeck.add(createAdventureCard("Test", "Test of Valor", 0, 0));
+        adventureDeck.add(createAdventureCard("Test", "Test of Valor", 0,0));
+
+        adventureDeck.add(createAdventureCard("Test", "Test of Temptation", 0,0));
+        adventureDeck.add(createAdventureCard("Test", "Test of Temptation", 0,0));
+
+        adventureDeck.add(createAdventureCard("Test", "Test of the Questing Beast", 0, 0));
+        adventureDeck.add(createAdventureCard("Test", "Test of the Questing Beast", 0, 0));
+
+        adventureDeck.add(createAdventureCard("Test", "Test of Morgan Le Fey", 3, 0));
+        adventureDeck.add(createAdventureCard("Test", "Test of Morgan Le Fey", 3, 0));
+
+
+        /*Allies*/
+        adventureDeck.add(createAdventureCard("Ally", "Sir Galahad", 15, 0));
+        adventureDeck.add(createAdventureCard("Ally", "Sir Gawain", 10, 0));
+        adventureDeck.add(createAdventureCard("Ally", "King Pellinore", 10, 0));
+        adventureDeck.add(createAdventureCard("Ally", "Sir Percival", 5, 0));
+        adventureDeck.add(createAdventureCard("Ally", "Sir Tristan", 10, 0));
+        adventureDeck.add(createAdventureCard("Ally", "King Arthur", 10, 2));
+        adventureDeck.add(createAdventureCard("Ally", "Queen Guinevere", 0, 3));
+        adventureDeck.add(createAdventureCard("Ally", "Merlin", 0, 0));
+        adventureDeck.add(createAdventureCard("Ally", "Queen Iseult", 0, 2));
+        adventureDeck.add(createAdventureCard("Ally", "Sir Lancelot", 15, 0));
+
+
+        //STORY DECK
+        cardCounter = 0;
+
+    }
+
+    public Adventure createAdventureCard(String type, String name, int battlePoints, int bids) {
+        switch (type) {
+            case "Foe":
+                Foe foe = new Foe(name, battlePoints, bids);//using bids as boosted battle points here..not good practice?
+                return foe;
+            case "Weapon":
+                Weapon weapon = new Weapon(name, battlePoints);
+                return weapon;
+            case "Ally":
+                Ally ally = new Ally(name, battlePoints, bids);
+                return ally;
+            case "Amour":
+                Amour amour = new Amour();
+                return amour;
+            case "Test":
+                Test test = new Test(name, bids);
+                return test;
+            default:
+                System.out.println("Deck creation err, abort");
+                Foe apocalypse = new Foe("Critical Err", 9001, -1);
+                return apocalypse;
+        }
+    }
+
+}

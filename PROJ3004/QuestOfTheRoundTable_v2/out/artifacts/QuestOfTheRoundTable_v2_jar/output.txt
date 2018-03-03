@@ -1,0 +1,46 @@
+test
+constructor called
+numplayers is: 1
+constructor called
+numplayers is: 2
+Player 1
+----------
+Thieves
+Sword
+Horse
+Dagger
+Black Knight
+Thieves
+Amour
+Saxon Knight
+Robber Knight
+Green Knight
+Amour
+Saxons
+=====================
+Player 2
+----------
+Lance
+Test of Temptation
+Queen Guinevere
+Evil Knight
+Black Knight
+Evil Knight
+Horse
+Sword
+Saxons
+Sir Lancelot
+Horse
+Evil Knight
+=====================
+
+Player 1 number allies displayed 0player one actual allies in play 0
+Player 2 number allies displayed 0player two actual allies in play 0
+Num Player 2
+current player 1
+currentPlayer is 1
+
+Player 1 number allies displayed 0player one actual allies in play 0
+Player 2 number allies displayed 0player two actual allies in play 0
+Num Player 2
+current player 2

@@ -1,0 +1,22 @@
+#btn_openScene_play {
+    -fx-font-size: 26;
+    -fx-base: #b6e7c9;
+
+    -fx-background-radius: 45%;
+    -fx-border-radius: 45%;
+    -fx-border-width: 4px;
+    -fx-border-color:black;
+}
+
+#btn_openScn_quit {
+    -fx-font-size: 20;
+    -fx-font-color: black;
+    -fx-base: #b6e7c9;
+
+    -fx-background-color: red;
+    -fx-background-radius: 20%;
+    -fx-border-radius: 10%;
+    -fx-border-width: 2px;
+    -fx-border: 2px;
+    -fx-border-color:black;
+}
